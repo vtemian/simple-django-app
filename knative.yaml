@@ -4,17 +4,15 @@ metadata:
   name: simple-django-app
   namespace: default
 spec:
-  runLatest:
-    configuration:
-      revisionTemplate:
-        metadata:
-          annotations:
-            autoscaling.knative.dev/metric: cpu
-            autoscaling.knative.dev/target: "70"
-            autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
-        spec:
-          container:
-            image: __IMAGE__
-            resources:
-              requests:
-                  cpu: 100m
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/metric: cpu
+        autoscaling.knative.dev/target: "70"
+        autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
+      spec:
+        containers:
+        - image: __IMAGE__
+          resources:
+            requests:
+              cpu: 100m
