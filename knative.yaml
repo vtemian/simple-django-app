@@ -1,4 +1,4 @@
-apiVersion: serving.knative.dev/v1alpha1
+apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: simple-django-app
@@ -7,8 +7,14 @@ spec:
   runLatest:
     configuration:
       revisionTemplate:
+        metadata:
+          annotations:
+            autoscaling.knative.dev/metric: cpu
+            autoscaling.knative.dev/target: "70"
+            autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
         spec:
           container:
             image: __IMAGE__
-            args:
-            - --trigger-config=/app/config/deployer-trigger.yaml
+            resources:
+              requests:
+                  cpu: 100m
